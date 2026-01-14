@@ -819,6 +819,8 @@ function setupEventListeners() {
     dtSlider.addEventListener('input', () => {
         sharedConfig.dt = parseFloat(dtSlider.value);
         document.getElementById('dt-value').textContent = sharedConfig.dt.toExponential(2);
+    });
+    dtSlider.addEventListener('change', () => {
         reset();
     });
 
@@ -827,6 +829,8 @@ function setupEventListeners() {
     dxSlider.addEventListener('input', () => {
         sharedConfig.Nx = parseInt(dxSlider.value);
         document.getElementById('dx-value').textContent = sharedConfig.Nx;
+    });
+    dxSlider.addEventListener('change', () => {
         reset();
     });
 
