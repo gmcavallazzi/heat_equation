@@ -296,7 +296,6 @@ function switchDimension(dimension) {
     document.getElementById('status-max-rel-error').style.display = dimension === '2d' ? '' : 'none';
 
     // Update equations display
-    document.getElementById('eq-title').textContent = dimension === '1d' ? 'Governing Equation (1D)' : 'Governing Equation (2D)';
     document.getElementById('eq-1d').style.display = dimension === '1d' ? '' : 'none';
     document.getElementById('eq-2d').style.display = dimension === '2d' ? '' : 'none';
 
@@ -307,7 +306,9 @@ function switchDimension(dimension) {
         updateStatus1D();
     } else {
         initSimulation2D();
-        initErrorChart();
+        if (!state2d.errorChart) {
+            initErrorChart();
+        }
         updateSurfacePlot();
         updateErrorChart();
         updateStatus2D();
