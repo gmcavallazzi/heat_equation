@@ -313,7 +313,7 @@ function switchDimension(dimension) {
         updateStatus2D();
     }
 
-    // Update discretization display for new dimension
+    // Update discretisation display for new dimension
     updateDiscretizationDisplay();
 
     // Re-render MathJax
@@ -840,12 +840,12 @@ function updateDiscretizationDisplay() {
     const dim = currentDimension;
     const method = sharedConfig.method;
 
-    // Hide all discretization blocks
-    document.querySelectorAll('.discretization-block').forEach(block => {
+    // Hide all discretisation blocks
+    document.querySelectorAll('.discretisation-block').forEach(block => {
         block.style.display = 'none';
     });
 
-    // Show the selected method's discretization for current dimension
+    // Show the selected method's discretisation for current dimension
     const blockId = `disc-${dim}-${method}`;
     const block = document.getElementById(blockId);
     if (block) {

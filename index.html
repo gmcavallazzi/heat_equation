@@ -264,24 +264,24 @@
                                     </div>
                                 </div>
 
-                                <!-- Right: Selected Method Discretization -->
+                                <!-- Right: Selected Method Discretisation -->
                                 <div>
-                                    <h4>Discretization</h4>
-                                    <!-- 1D Discretizations -->
-                                    <div id="disc-1d-forward-euler" class="discretization-block">
+                                    <h4>Discretisation</h4>
+                                    <!-- 1D Discretisations -->
+                                    <div id="disc-1d-forward-euler" class="discretisation-block">
                                         <p class="equation small">
                                             <strong>Forward Euler:</strong>
                                             \[ T_i^{n+1} = T_i^n + r(T_{i+1}^n - 2T_i^n + T_{i-1}^n) \]
                                         </p>
                                     </div>
-                                    <div id="disc-1d-backward-euler" class="discretization-block"
+                                    <div id="disc-1d-backward-euler" class="discretisation-block"
                                         style="display: none;">
                                         <p class="equation small">
                                             <strong>Backward Euler:</strong>
                                             \[ T_i^{n+1} - r(T_{i+1}^{n+1} - 2T_i^{n+1} + T_{i-1}^{n+1}) = T_i^n \]
                                         </p>
                                     </div>
-                                    <div id="disc-1d-crank-nicolson" class="discretization-block"
+                                    <div id="disc-1d-crank-nicolson" class="discretisation-block"
                                         style="display: none;">
                                         <p class="equation small">
                                             <strong>Crank-Nicolson:</strong>
@@ -292,21 +292,21 @@
                                         </p>
                                     </div>
 
-                                    <!-- 2D Discretizations -->
-                                    <div id="disc-2d-forward-euler" class="discretization-block" style="display: none;">
+                                    <!-- 2D Discretisations -->
+                                    <div id="disc-2d-forward-euler" class="discretisation-block" style="display: none;">
                                         <p class="equation small">
                                             <strong>Forward Euler:</strong> Standard 5-point stencil.
                                             Stability: \( r_x + r_y \le 0.5 \)
                                         </p>
                                     </div>
-                                    <div id="disc-2d-backward-euler" class="discretization-block"
+                                    <div id="disc-2d-backward-euler" class="discretisation-block"
                                         style="display: none;">
                                         <p class="equation small">
                                             <strong>Backward Euler (ADI):</strong>
                                             Solved using Alternating Direction Implicit (Peaceman-Rachford) splitting.
                                         </p>
                                     </div>
-                                    <div id="disc-2d-crank-nicolson" class="discretization-block"
+                                    <div id="disc-2d-crank-nicolson" class="discretisation-block"
                                         style="display: none;">
                                         <p class="equation small">
                                             <strong>Crank-Nicolson (ADI):</strong>
