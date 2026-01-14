@@ -134,10 +134,8 @@ body {
 .control-panel {
     padding: var(--spacing-md) var(--spacing-lg);
     height: fit-content;
-    position: sticky;
-    top: var(--spacing-md);
     overflow-y: auto;
-    max-height: calc(100vh - 2rem);
+    max-height: calc(100vh - 8rem);
 }
 
 .control-panel h2 {
