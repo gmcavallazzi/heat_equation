@@ -669,7 +669,9 @@ function initErrorChart() {
                 y: {
                     title: { display: true, text: 'u(x, 0.5)', color: '#aaa', font: { size: 16, family: 'Outfit' } },
                     ticks: { color: '#888', font: { size: 14, family: 'Outfit' } },
-                    grid: { color: '#333' }
+                    grid: { color: '#333' },
+                    min: -0.5,
+                    max: 0.5
                 }
             },
             plugins: {
