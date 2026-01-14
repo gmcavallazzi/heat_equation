@@ -233,7 +233,6 @@
                 <div class="info-panel glass-card">
                     <div class="info-tabs">
                         <button class="info-tab active" data-tab="method">Method Info</button>
-                        <button class="info-tab" data-tab="stability">Stability</button>
                         <button class="info-tab" data-tab="equations">Equations</button>
                     </div>
                     <div class="info-content">
@@ -244,19 +243,6 @@
                                 It is first-order accurate in time and <strong>conditionally stable</strong>:
                                 the Fourier number \(r = \alpha \Delta t / \Delta x^2\) must satisfy \(r \le 0.5\).
                             </p>
-                        </div>
-                        <div class="tab-content" id="tab-stability">
-                            <h3>Stability Analysis</h3>
-                            <p>
-                                The <strong>Fourier number</strong> \(r = \frac{\alpha \Delta t}{\Delta x^2}\)
-                                determines stability for explicit methods.
-                            </p>
-                            <ul>
-                                <li><strong>Forward Euler:</strong> Stable if \(r \le 0.5\) (1D) or \(r_x + r_y \le
-                                    0.5\) (2D)</li>
-                                <li><strong>Backward Euler:</strong> Unconditionally stable (all \(r\))</li>
-                                <li><strong>Crank-Nicolson:</strong> Unconditionally stable (all \(r\))</li>
-                            </ul>
                         </div>
                         <div class="tab-content" id="tab-equations">
                             <h3 id="eq-title">Governing Equation (1D)</h3>
