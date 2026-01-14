@@ -94,51 +94,54 @@
                     </div>
                 </div>
 
-                <!-- Time Step -->
-                <div class="control-group">
-                    <label for="dt-slider">
-                        Time Step (dt)
-                        <span class="value-display" id="dt-value">0.001</span>
-                    </label>
-                    <input type="range" id="dt-slider" min="0.0001" max="0.01" step="0.0001" value="0.001">
-                    <div class="slider-labels">
-                        <span>0.0001</span>
-                        <span>0.01</span>
+                <!-- Parameters Grid (2 columns) -->
+                <div class="controls-grid">
+                    <!-- Time Step -->
+                    <div class="control-group">
+                        <label for="dt-slider">
+                            Time Step (dt)
+                            <span class="value-display" id="dt-value">0.001</span>
+                        </label>
+                        <input type="range" id="dt-slider" min="0.0001" max="0.01" step="0.0001" value="0.001">
+                        <div class="slider-labels">
+                            <span>0.0001</span>
+                            <span>0.01</span>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Spatial Step -->
-                <div class="control-group">
-                    <label for="dx-slider">
-                        Grid Points (Nx)
-                        <span class="value-display" id="dx-value">41</span>
-                    </label>
-                    <input type="range" id="dx-slider" min="40" max="160" step="2" value="41">
-                    <div class="slider-labels">
-                        <span>40</span>
-                        <span>160</span>
+                    <!-- Spatial Step -->
+                    <div class="control-group">
+                        <label for="dx-slider">
+                            Grid Points (Nx)
+                            <span class="value-display" id="dx-value">41</span>
+                        </label>
+                        <input type="range" id="dx-slider" min="40" max="160" step="2" value="41">
+                        <div class="slider-labels">
+                            <span>40</span>
+                            <span>160</span>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Physical Parameters -->
-                <div class="control-group">
-                    <label>
-                        Diffusivity (α)
-                        <span class="value-display">0.01</span>
-                    </label>
-                    <div class="static-value-description">Fixed value</div>
-                </div>
+                    <!-- Physical Parameters -->
+                    <div class="control-group">
+                        <label>
+                            Diffusivity (α)
+                            <span class="value-display">0.01</span>
+                        </label>
+                        <div class="static-value-description">Fixed value</div>
+                    </div>
 
-                <!-- Maximum Time -->
-                <div class="control-group">
-                    <label for="tmax-slider">
-                        Max Time (Tmax)
-                        <span class="value-display" id="tmax-value">2.0</span>
-                    </label>
-                    <input type="range" id="tmax-slider" min="0.1" max="10" step="0.1" value="2">
-                    <div class="slider-labels">
-                        <span>0.5</span>
-                        <span>10</span>
+                    <!-- Maximum Time -->
+                    <div class="control-group">
+                        <label for="tmax-slider">
+                            Max Time (Tmax)
+                            <span class="value-display" id="tmax-value">2.0</span>
+                        </label>
+                        <input type="range" id="tmax-slider" min="0.1" max="10" step="0.1" value="2">
+                        <div class="slider-labels">
+                            <span>0.5</span>
+                            <span>10</span>
+                        </div>
                     </div>
                 </div>
 
