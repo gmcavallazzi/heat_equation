@@ -127,6 +127,7 @@ body {
     flex: 1;
     overflow: hidden;
     min-height: 0;
+    align-items: start;
 }
 
 /* Control Panel */
