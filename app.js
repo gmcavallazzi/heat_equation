@@ -739,7 +739,7 @@ function updateStatus2D() {
 
     document.getElementById('error-display').textContent = l2Error.toExponential(3);
     document.getElementById('max-error-display').textContent = maxErr.toExponential(3);
-    document.getElementById('max-rel-error-display').textContent = maxRelErr.toFixed(3) + '%';
+    document.getElementById('max-rel-error-display').textContent = maxRelErr.toExponential(3) + '%';
 }
 
 function animate2D() {
