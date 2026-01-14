@@ -363,7 +363,6 @@ function timeStep1D() {
 }
 
 function initChart1D() {
-    console.log('initChart1D called, Chart available:', typeof Chart !== 'undefined');
     if (typeof Chart === 'undefined') {
         console.error('Chart.js not loaded yet!');
         return;
@@ -435,8 +434,8 @@ function updateChart1D() {
 }
 
 function updateStatus1D() {
-    document.getElementById('time-display').textContent = `t = ${state1d.t.toFixed(3)}`;
-    document.getElementById('r-display').textContent = `r = ${state1d.r.toFixed(4)}`;
+    document.getElementById('time-display').textContent = state1d.t.toFixed(3);
+    document.getElementById('r-display').textContent = state1d.r.toFixed(4);
     document.getElementById('steps-display').textContent = state1d.nSteps;
     document.getElementById('flops-display').textContent = state1d.flops.toExponential(2);
 
@@ -510,11 +509,9 @@ function animate1D() {
 }
 
 function startAnimation1D() {
-    console.log('startAnimation1D called');
     if (state1d.isPlaying) return;
     state1d.isPlaying = true;
     document.getElementById('play-btn').innerHTML = '<span id="play-icon">⏸</span> Pause';
-    console.log('Starting 1D animation');
     animate1D();
 }
 
@@ -680,8 +677,8 @@ function updateErrorChart() {
 }
 
 function updateStatus2D() {
-    document.getElementById('time-display').textContent = `t = ${state2d.t.toFixed(3)}`;
-    document.getElementById('r-display').textContent = `rx = ${state2d.rx.toFixed(4)}, ry = ${state2d.ry.toFixed(4)}`;
+    document.getElementById('time-display').textContent = state2d.t.toFixed(3);
+    document.getElementById('r-display').textContent = `${state2d.rx.toFixed(4)}`;
     document.getElementById('steps-display').textContent = state2d.nSteps;
     document.getElementById('flops-display').textContent = state2d.flops.toExponential(2);
 
@@ -766,13 +763,10 @@ function stopAnimation2D() {
 // ========================================
 
 function togglePlayPause() {
-    console.log('togglePlayPause called, dimension:', currentDimension);
     if (currentDimension === '1d') {
-        console.log('1D mode, isPlaying:', state1d.isPlaying);
         if (state1d.isPlaying) stopAnimation1D();
         else startAnimation1D();
     } else {
-        console.log('2D mode, isPlaying:', state2d.isPlaying);
         if (state2d.isPlaying) stopAnimation2D();
         else startAnimation2D();
     }
@@ -864,11 +858,8 @@ function setupEventListeners() {
     });
 
     // Play/Pause & Reset
-    const playBtn = document.getElementById('play-btn');
-    const resetBtn = document.getElementById('reset-btn');
-    console.log('Setting up event listeners, playBtn:', playBtn, 'resetBtn:', resetBtn);
-    playBtn.addEventListener('click', togglePlayPause);
-    resetBtn.addEventListener('click', reset);
+    document.getElementById('play-btn').addEventListener('click', togglePlayPause);
+    document.getElementById('reset-btn').addEventListener('click', reset);
 
     // Info tabs
     document.querySelectorAll('.info-tab').forEach(tab => {
@@ -887,8 +878,6 @@ function setupEventListeners() {
 
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        console.log('DOMContentLoaded fired');
-
         // Initialize controls
         document.getElementById('dt-slider').value = sharedConfig.dt;
         document.getElementById('dx-slider').value = sharedConfig.Nx;
@@ -898,25 +887,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('dx-value').textContent = sharedConfig.Nx;
         document.getElementById('tmax-value').textContent = sharedConfig.Tmax.toFixed(1);
         document.getElementById('speed-value').textContent = `${sharedConfig.animationSpeed}x`;
-        console.log('Controls initialized');
 
         // Initialize 1D (default)
         initSimulation1D();
-        console.log('Simulation initialized');
-
         initChart1D();
-        console.log('Chart initialized');
-
         updateStatus1D();
-        console.log('Status updated');
-
         updateMethodInfo();
-        console.log('Method info updated');
-
         setupEventListeners();
-        console.log('Event listeners set up');
 
-        console.log('Heat Equation Explorer initialized successfully');
+        // Render LaTeX in status panel
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise([document.querySelector('.status-panel')]).catch((err) => console.log('MathJax error:', err));
+        }
     } catch (error) {
         console.error('Initialization error:', error);
         console.error('Stack:', error.stack);
