@@ -401,11 +401,12 @@ input[type="range"]::-moz-range-thumb {
     font-weight: 600;
     min-height: 1.5rem;
     min-width: 85px;
-    width: 85px;
+    width: auto;
     display: inline-block;
     text-align: left;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0;
+    white-space: nowrap;
 }
 
 .stability-indicator .status-value {
