@@ -817,12 +817,12 @@ function updateMethodInfo() {
             desc: `First-order accurate, <strong>conditionally stable</strong>: \\(r = \\alpha \\Delta t / \\Delta x^2\\) must satisfy \\(r \\le 0.5\\) (1D) or \\(r_x + r_y \\le 0.5\\) (2D).`
         },
         'backward-euler': {
-            title: currentDimension === '2d' ? 'Backward Euler (ADI)' : 'Backward Euler (Implicit)',
-            desc: `First-order accurate, <strong>unconditionally stable</strong>. ${currentDimension === '2d' ? 'Uses ADI for efficiency.' : 'Large time steps allowed but accuracy suffers.'}`
+            title: 'Backward Euler (Implicit)',
+            desc: `First-order accurate, <strong>unconditionally stable</strong>. Large time steps allowed but accuracy suffers.`
         },
         'crank-nicolson': {
-            title: currentDimension === '2d' ? 'Crank-Nicolson (ADI)' : 'Crank-Nicolson (Implicit)',
-            desc: `<strong>Second-order accurate</strong>, unconditionally stable. ${currentDimension === '2d' ? 'Uses ADI for efficiency.' : 'Best balance of stability and accuracy.'}`
+            title: 'Crank-Nicolson (Implicit)',
+            desc: `<strong>Second-order accurate</strong>, unconditionally stable. Best balance of stability and accuracy.`
         }
     };
     title.textContent = info[sharedConfig.method].title;
