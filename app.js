@@ -684,17 +684,17 @@ function initErrorChart() {
 function updateErrorChart() {
     if (!state2d.errorChart) return;
 
-    // Extract slice at x=0.5 (midpoint)
+    // Extract slice at y=0.5 (midpoint) - Reverted to previous content as requested
     const diagNumerical = [];
     const diagAnalytical = [];
-    const iMid = Math.floor(sharedConfig.Nx / 2);
+    const jMid = Math.floor(sharedConfig.Nx / 2);
 
-    for (let j = 0; j < sharedConfig.Nx; j++) {
-        diagNumerical.push(state2d.u[iMid][j]);
-        diagAnalytical.push(state2d.uExact[iMid][j]);
+    for (let i = 0; i < sharedConfig.Nx; i++) {
+        diagNumerical.push(state2d.u[i][jMid]);
+        diagAnalytical.push(state2d.uExact[i][jMid]);
     }
 
-    state2d.errorChart.data.labels = state2d.y.map(yi => yi.toFixed(2));
+    state2d.errorChart.data.labels = state2d.x.map(xi => xi.toFixed(2));
     state2d.errorChart.data.datasets[0].data = diagAnalytical;
     state2d.errorChart.data.datasets[1].data = diagNumerical;
     state2d.errorChart.update('none');
