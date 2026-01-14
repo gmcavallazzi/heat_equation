@@ -4,9 +4,9 @@ Interactive web-based visualizations for exploring numerical methods applied to 
 
 ## Live Demo
 
-- **Landing Page**: [https://gmcavallazzi.github.io/heat_equation/](https://gmcavallazzi.github.io/heat_equation/)
-- **1D Explorer**: [https://gmcavallazzi.github.io/heat_equation/1d/](https://gmcavallazzi.github.io/heat_equation/1d/)
-- **2D Explorer**: [https://gmcavallazzi.github.io/heat_equation/2d/](https://gmcavallazzi.github.io/heat_equation/2d/)
+**App**: [https://gmcavallazzi.github.io/heat_equation/](https://gmcavallazzi.github.io/heat_equation/)
+
+Use the 1D/2D toggle button to switch between dimensions.
 
 ## Features
 
@@ -75,14 +75,10 @@ This application is designed to demonstrate:
 
 ## Local Development
 
-Simply open the HTML files in a web browser:
+Simply open the HTML file in a web browser:
 
 ```bash
-# 1D version
-open 1d/index.html
-
-# 2D version
-open 2d/index.html
+open index.html
 ```
 
 Or serve with a local server:
@@ -91,6 +87,8 @@ Or serve with a local server:
 python3 -m http.server 8000
 # Then visit http://localhost:8000
 ```
+
+Use the dimension toggle button at the top to switch between 1D and 2D modes.
 
 ## Mathematical Background
 

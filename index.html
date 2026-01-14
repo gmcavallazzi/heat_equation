@@ -5,203 +5,296 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heat Equation Explorer</title>
-    <meta name="description" content="Interactive numerical methods for the heat equation - Educational tools for MEM407">
+    <meta name="description" content="Interactive visualization of numerical methods for the heat equation">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
+        .dimension-toggle {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Outfit', sans-serif;
-        }
-
-        .landing-container {
-            max-width: 900px;
-            padding: 2rem;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: white;
-            margin: 0 0 1rem 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin: 0;
-        }
-
-        .apps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .app-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 2rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            display: block;
-        }
-
-        .app-card:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .app-card h2 {
-            font-size: 2rem;
-            margin: 0 0 1rem 0;
-            font-weight: 600;
-        }
-
-        .app-card .dimension-badge {
-            display: inline-block;
-            background: rgba(99, 102, 241, 0.3);
-            color: #c7d2fe;
-            padding: 0.25rem 0.75rem;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem;
             border-radius: 12px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
         }
 
-        .app-card p {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin: 0 0 1rem 0;
-            opacity: 0.9;
-        }
-
-        .app-card .features {
-            list-style: none;
-            padding: 0;
-            margin: 1rem 0 0 0;
-        }
-
-        .app-card .features li {
-            font-size: 0.9rem;
-            padding: 0.5rem 0;
-            opacity: 0.8;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .app-card .features li:first-child {
-            border-top: none;
-        }
-
-        .app-card .cta {
-            display: inline-block;
-            margin-top: 1rem;
+        .dimension-btn {
+            flex: 1;
             padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dimension-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .dimension-btn.active {
             background: rgba(99, 102, 241, 0.4);
-            border-radius: 12px;
-            font-weight: 500;
-            transition: background 0.3s ease;
+            color: white;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
         }
 
-        .app-card:hover .cta {
-            background: rgba(99, 102, 241, 0.6);
+        .dimension-content {
+            display: none;
         }
 
-        .footer {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            margin-top: 2rem;
-        }
-
-        .footer a {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .apps-grid {
-                grid-template-columns: 1fr;
-            }
+        .dimension-content.active {
+            display: block;
         }
     </style>
 </head>
 
 <body>
-    <div class="landing-container">
-        <div class="hero">
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
             <h1>Heat Equation Explorer</h1>
-            <p>Interactive Numerical Methods Visualization</p>
-        </div>
+            <p class="subtitle">Compare Forward Euler, Backward Euler & Crank-Nicolson Methods</p>
+        </header>
 
-        <div class="apps-grid">
-            <a href="1d/" class="app-card">
-                <div class="dimension-badge">1D</div>
-                <h2>1D Heat Equation</h2>
-                <p>
-                    Explore Forward Euler, Backward Euler, and Crank-Nicolson methods applied to the 1D heat equation.
-                    Compare numerical solutions with analytical results.
-                </p>
-                <ul class="features">
-                    <li>Real-time stability analysis</li>
-                    <li>Fourier number monitoring</li>
-                    <li>L2 and max error metrics</li>
-                    <li>FLOPs counting</li>
-                </ul>
-                <div class="cta">Launch 1D Explorer →</div>
-            </a>
+        <main class="main-content">
+            <!-- Control Panel -->
+            <aside class="control-panel glass-card">
+                <!-- Dimension Toggle -->
+                <div class="dimension-toggle">
+                    <button class="dimension-btn active" id="btn-1d" onclick="switchDimension('1d')">1D</button>
+                    <button class="dimension-btn" id="btn-2d" onclick="switchDimension('2d')">2D</button>
+                </div>
 
-            <a href="2d/" class="app-card">
-                <div class="dimension-badge">2D</div>
-                <h2>2D Heat Equation</h2>
-                <p>
-                    Visualize 2D heat diffusion with interactive 3D surface plots. Implements ADI (Alternating Direction
-                    Implicit) for efficient computation.
-                </p>
-                <ul class="features">
-                    <li>3D surface visualization</li>
-                    <li>ADI implementation</li>
-                    <li>Dual Fourier number tracking</li>
-                    <li>Error evolution charts</li>
-                </ul>
-                <div class="cta">Launch 2D Explorer →</div>
-            </a>
-        </div>
+                <h2>Simulation Parameters</h2>
 
-        <div class="footer">
-            <p>
-                MEM407 Course - City, University of London<br>
-                <a href="https://github.com/gmcavallazzi/heat_equation" target="_blank">View on GitHub</a>
-            </p>
-        </div>
+                <!-- Method Selection -->
+                <div class="control-group">
+                    <label>Numerical Method</label>
+                    <div class="method-buttons">
+                        <button class="method-btn active" data-method="forward-euler">
+                            <span class="method-name">Forward Euler</span>
+                            <span class="method-tag explicit">Explicit</span>
+                        </button>
+                        <button class="method-btn" data-method="backward-euler">
+                            <span class="method-name">Backward Euler</span>
+                            <span class="method-tag implicit">Implicit</span>
+                        </button>
+                        <button class="method-btn" data-method="crank-nicolson">
+                            <span class="method-name">Crank-Nicolson</span>
+                            <span class="method-tag implicit">Implicit</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Time Step -->
+                <div class="control-group">
+                    <label for="dt-input">
+                        Time Step (dt)
+                        <span class="value-display" id="dt-value">0.001</span>
+                    </label>
+                    <input type="number" id="dt-input" min="0.0001" max="0.1" step="0.0001" value="0.001"
+                        class="number-input">
+                </div>
+
+                <!-- Spatial Step -->
+                <div class="control-group">
+                    <label for="dx-slider">
+                        Grid Points (Nx)
+                        <span class="value-display" id="dx-value">41</span>
+                    </label>
+                    <input type="range" id="dx-slider" min="40" max="160" step="2" value="41">
+                    <div class="slider-labels">
+                        <span>40</span>
+                        <span>160</span>
+                    </div>
+                </div>
+
+                <!-- Physical Parameters -->
+                <div class="control-group">
+                    <label>
+                        Diffusivity (α)
+                        <span class="value-display">0.01</span>
+                    </label>
+                    <div class="static-value-description">Fixed value</div>
+                </div>
+
+                <!-- Maximum Time -->
+                <div class="control-group">
+                    <label for="tmax-slider">
+                        Max Time (Tmax)
+                        <span class="value-display" id="tmax-value">2.0</span>
+                    </label>
+                    <input type="range" id="tmax-slider" min="0.1" max="10" step="0.1" value="2">
+                    <div class="slider-labels">
+                        <span>0.5</span>
+                        <span>10</span>
+                    </div>
+                </div>
+
+                <!-- Playback Controls -->
+                <div class="control-group playback-controls">
+                    <button id="play-btn" class="action-btn primary">
+                        <span id="play-icon">▶</span> Play
+                    </button>
+                    <button id="reset-btn" class="action-btn secondary">↺ Reset</button>
+                </div>
+
+                <!-- Speed Control -->
+                <div class="control-group">
+                    <label for="speed-slider">
+                        Animation Speed
+                        <span class="value-display" id="speed-value">5x</span>
+                    </label>
+                    <input type="range" id="speed-slider" min="1" max="20" step="1" value="5">
+                </div>
+            </aside>
+
+            <!-- Visualization Area -->
+            <section class="visualization-area">
+                <!-- Status Panel -->
+                <div class="status-panel glass-card">
+                    <div class="status-item">
+                        <span class="status-label">Dimension</span>
+                        <span class="status-value" id="dimension-display">1D</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Active Method</span>
+                        <span class="status-value" id="method-display">Forward Euler</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Time</span>
+                        <span class="status-value" id="time-display">t = 0.000</span>
+                    </div>
+                    <div class="status-item stability-indicator" id="stability-indicator">
+                        <span class="status-label">Fourier Number (r)</span>
+                        <span class="status-value" id="r-display">r = 0.000</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Stability</span>
+                        <span class="status-value" id="stability-status">Stable</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Time Steps</span>
+                        <span class="status-value" id="steps-display">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">TOTAL FLOPs</span>
+                        <span class="status-value" id="flops-display">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">L2 Error</span>
+                        <span class="status-value" id="error-display">0.000</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Max Error</span>
+                        <span class="status-value" id="max-error-display">0.000</span>
+                    </div>
+                    <div class="status-item" id="status-max-rel-error" style="display: none;">
+                        <span class="status-label">Max % Error</span>
+                        <span class="status-value" id="max-rel-error-display">0.00%</span>
+                    </div>
+                </div>
+
+                <!-- 1D Visualization -->
+                <div id="viz-1d" class="dimension-content active">
+                    <div class="chart-container glass-card">
+                        <canvas id="solution-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 2D Visualization -->
+                <div id="viz-2d" class="dimension-content">
+                    <div class="charts-wrapper" style="display: flex; gap: 1rem; height: 500px;">
+                        <div class="chart-container glass-card" style="flex: 1; height: 100%;">
+                            <div id="surface-plot" style="width: 100%; height: 100%;"></div>
+                        </div>
+                        <div class="chart-container glass-card" style="flex: 1; height: 100%;">
+                            <canvas id="error-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Educational Info -->
+                <div class="info-panel glass-card">
+                    <div class="info-tabs">
+                        <button class="info-tab active" data-tab="method">Method Info</button>
+                        <button class="info-tab" data-tab="stability">Stability</button>
+                        <button class="info-tab" data-tab="equations">Equations</button>
+                    </div>
+                    <div class="info-content">
+                        <div class="tab-content active" id="tab-method">
+                            <h3 id="method-title">Forward Euler (Explicit)</h3>
+                            <p id="method-description">
+                                The Forward Euler method uses values at time level \(n\) to compute values at \(n+1\).
+                                It is first-order accurate in time and <strong>conditionally stable</strong>:
+                                the Fourier number \(r = \alpha \Delta t / \Delta x^2\) must satisfy \(r \le 0.5\).
+                            </p>
+                        </div>
+                        <div class="tab-content" id="tab-stability">
+                            <h3>Stability Analysis</h3>
+                            <p>
+                                The <strong>Fourier number</strong> \(r = \frac{\alpha \Delta t}{\Delta x^2}\)
+                                determines stability for explicit methods.
+                            </p>
+                            <ul>
+                                <li><strong>Forward Euler:</strong> Stable if \(r \le 0.5\) (1D) or \(r_x + r_y \le 0.5\) (2D)</li>
+                                <li><strong>Backward Euler:</strong> Unconditionally stable (all \(r\))</li>
+                                <li><strong>Crank-Nicolson:</strong> Unconditionally stable (all \(r\))</li>
+                            </ul>
+                        </div>
+                        <div class="tab-content" id="tab-equations">
+                            <h3 id="eq-title">Governing Equation (1D)</h3>
+                            <div id="eq-1d">
+                                <p class="equation">
+                                    \[ \frac{\partial T}{\partial t} = \alpha \frac{\partial^2 T}{\partial x^2} \]
+                                </p>
+                                <h4>Discretizations:</h4>
+                                <p class="equation small">
+                                    <strong>Forward Euler:</strong>
+                                    \[ T_i^{n+1} = T_i^n + r(T_{i+1}^n - 2T_i^n + T_{i-1}^n) \]
+                                </p>
+                                <p class="equation small">
+                                    <strong>Backward Euler:</strong>
+                                    \[ T_i^{n+1} - r(T_{i+1}^{n+1} - 2T_i^{n+1} + T_{i-1}^{n+1}) = T_i^n \]
+                                </p>
+                                <p class="equation small">
+                                    <strong>Crank-Nicolson:</strong>
+                                    \[ \frac{T_i^{n+1} - T_i^n}{\Delta t} = \frac{\alpha}{2} \left( \frac{\partial^2
+                                    T}{\partial x^2}\bigg|^{n+1} + \frac{\partial^2 T}{\partial x^2}\bigg|^n \right) \]
+                                </p>
+                            </div>
+                            <div id="eq-2d" style="display: none;">
+                                <p class="equation">
+                                    \[ \frac{\partial T}{\partial t} = \alpha \left( \frac{\partial^2 T}{\partial x^2} +
+                                    \frac{\partial^2 T}{\partial y^2} \right) \]
+                                </p>
+                                <h4>Discretizations (2D):</h4>
+                                <p class="equation small">
+                                    <strong>Forward Euler:</strong> Standard 5-point stencil.
+                                    Stability: \( r_x + r_y \le 0.5 \)
+                                </p>
+                                <p class="equation small">
+                                    <strong>Implicit Methods (ADI):</strong>
+                                    Solved using Alternating Direction Implicit (Peaceman-Rachford) splitting to avoid large
+                                    matrix inversion.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
+
+    <script src="app.js"></script>
 </body>
 
 </html>
