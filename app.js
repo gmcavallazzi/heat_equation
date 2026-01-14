@@ -640,7 +640,7 @@ function initErrorChart() {
             labels: [],
             datasets: [
                 {
-                    label: 'Analytical (y=0.5)',
+                    label: 'Analytical (x=0.5)',
                     data: [],
                     borderColor: '#ffa500',
                     borderDash: [5, 5],
@@ -648,7 +648,7 @@ function initErrorChart() {
                     pointRadius: 0,
                 },
                 {
-                    label: 'Numerical (y=0.5)',
+                    label: 'Numerical (x=0.5)',
                     data: [],
                     borderColor: '#00e5ff',
                     borderWidth: 2,
@@ -662,12 +662,12 @@ function initErrorChart() {
             animation: { duration: 0 },
             scales: {
                 x: {
-                    title: { display: true, text: 'x (at y=0.5)', color: '#aaa', font: { size: 16, family: 'Outfit' } },
+                    title: { display: true, text: 'y (at x=0.5)', color: '#aaa', font: { size: 16, family: 'Outfit' } },
                     ticks: { color: '#888', font: { size: 14, family: 'Outfit' } },
                     grid: { color: '#333' }
                 },
                 y: {
-                    title: { display: true, text: 'u(x, 0.5)', color: '#aaa', font: { size: 16, family: 'Outfit' } },
+                    title: { display: true, text: 'u(0.5, y)', color: '#aaa', font: { size: 16, family: 'Outfit' } },
                     ticks: { color: '#888', font: { size: 14, family: 'Outfit' } },
                     grid: { color: '#333' },
                     min: -1.0,
@@ -684,17 +684,17 @@ function initErrorChart() {
 function updateErrorChart() {
     if (!state2d.errorChart) return;
 
-    // Extract slice at y=0.5 (midpoint)
+    // Extract slice at x=0.5 (midpoint)
     const diagNumerical = [];
     const diagAnalytical = [];
-    const jMid = Math.floor(sharedConfig.Nx / 2);
+    const iMid = Math.floor(sharedConfig.Nx / 2);
 
-    for (let i = 0; i < sharedConfig.Nx; i++) {
-        diagNumerical.push(state2d.u[i][jMid]);
-        diagAnalytical.push(state2d.uExact[i][jMid]);
+    for (let j = 0; j < sharedConfig.Nx; j++) {
+        diagNumerical.push(state2d.u[iMid][j]);
+        diagAnalytical.push(state2d.uExact[iMid][j]);
     }
 
-    state2d.errorChart.data.labels = state2d.x.map(xi => xi.toFixed(2));
+    state2d.errorChart.data.labels = state2d.y.map(yi => yi.toFixed(2));
     state2d.errorChart.data.datasets[0].data = diagAnalytical;
     state2d.errorChart.data.datasets[1].data = diagNumerical;
     state2d.errorChart.update('none');
