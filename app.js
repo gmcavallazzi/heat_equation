@@ -675,28 +675,7 @@ function initErrorChart() {
                 }
             },
             plugins: {
-                legend: { labels: { color: '#ccc', font: { size: 14, family: 'Outfit' } } },
-                zoom: {
-                    zoom: {
-                        drag: {
-                            enabled: true,
-                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                            borderColor: 'rgba(255, 255, 255, 0.5)',
-                            borderWidth: 1
-                        },
-                        pinch: {
-                            enabled: true
-                        },
-                        mode: 'xy',
-                    },
-                    pan: {
-                        enabled: false,
-                    },
-                    limits: {
-                        x: { min: 0, max: 1 },
-                        y: { min: -1.0, max: 1.0 }
-                    }
-                }
+                legend: { labels: { color: '#ccc', font: { size: 14, family: 'Outfit' } } }
             }
         }
     });
