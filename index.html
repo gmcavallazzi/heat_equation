@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heat Equation Explorer</title>
+    <meta name="description" content="Interactive numerical methods for the heat equation - Educational tools for MEM407">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .landing-container {
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 1rem 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .app-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+
+        .app-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-card h2 {
+            font-size: 2rem;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+        }
+
+        .app-card .dimension-badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.3);
+            color: #c7d2fe;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .app-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0 0 1rem 0;
+            opacity: 0.9;
+        }
+
+        .app-card .features {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 0 0;
+        }
+
+        .app-card .features li {
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+            opacity: 0.8;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .app-card .features li:first-child {
+            border-top: none;
+        }
+
+        .app-card .cta {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(99, 102, 241, 0.4);
+            border-radius: 12px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .app-card:hover .cta {
+            background: rgba(99, 102, 241, 0.6);
+        }
+
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="landing-container">
+        <div class="hero">
+            <h1>Heat Equation Explorer</h1>
+            <p>Interactive Numerical Methods Visualization</p>
+        </div>
+
+        <div class="apps-grid">
+            <a href="1d/" class="app-card">
+                <div class="dimension-badge">1D</div>
+                <h2>1D Heat Equation</h2>
+                <p>
+                    Explore Forward Euler, Backward Euler, and Crank-Nicolson methods applied to the 1D heat equation.
+                    Compare numerical solutions with analytical results.
+                </p>
+                <ul class="features">
+                    <li>Real-time stability analysis</li>
+                    <li>Fourier number monitoring</li>
+                    <li>L2 and max error metrics</li>
+                    <li>FLOPs counting</li>
+                </ul>
+                <div class="cta">Launch 1D Explorer →</div>
+            </a>
+
+            <a href="2d/" class="app-card">
+                <div class="dimension-badge">2D</div>
+                <h2>2D Heat Equation</h2>
+                <p>
+                    Visualize 2D heat diffusion with interactive 3D surface plots. Implements ADI (Alternating Direction
+                    Implicit) for efficient computation.
+                </p>
+                <ul class="features">
+                    <li>3D surface visualization</li>
+                    <li>ADI implementation</li>
+                    <li>Dual Fourier number tracking</li>
+                    <li>Error evolution charts</li>
+                </ul>
+                <div class="cta">Launch 2D Explorer →</div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>
+                MEM407 Course - City, University of London<br>
+                <a href="https://github.com/gmcavallazzi/heat_equation" target="_blank">View on GitHub</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

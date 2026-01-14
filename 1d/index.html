@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1D Heat Equation Explorer</title>
+    <meta name="description" content="Interactive visualization of numerical methods for the 1D heat equation">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>1D Heat Equation Explorer</h1>
+            <p class="subtitle">Compare Forward Euler, Backward Euler & Crank-Nicolson Methods</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Control Panel -->
+            <aside class="control-panel glass-card">
+                <h2>Simulation Parameters</h2>
+
+                <!-- Method Selection -->
+                <div class="control-group">
+                    <label>Numerical Method</label>
+                    <div class="method-buttons">
+                        <button class="method-btn active" data-method="forward-euler">
+                            <span class="method-name">Forward Euler</span>
+                            <span class="method-tag explicit">Explicit</span>
+                        </button>
+                        <button class="method-btn" data-method="backward-euler">
+                            <span class="method-name">Backward Euler</span>
+                            <span class="method-tag implicit">Implicit</span>
+                        </button>
+                        <button class="method-btn" data-method="crank-nicolson">
+                            <span class="method-name">Crank-Nicolson</span>
+                            <span class="method-tag implicit">Implicit</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Time Step -->
+                <div class="control-group">
+                    <label for="dt-slider">
+                        Time Step (dt)
+                        <span class="value-display" id="dt-value">0.001</span>
+                    </label>
+                    <input type="number" id="dt-input" min="0.0001" max="0.1" step="0.0001" value="0.001"
+                        class="number-input">
+                </div>
+
+                <!-- Spatial Step -->
+                <div class="control-group">
+                    <label for="dx-slider">
+                        Grid Points (Nx)
+                        <span class="value-display" id="dx-value">21</span>
+                    </label>
+                    <input type="range" id="dx-slider" min="40" max="160" step="2" value="41">
+                    <div class="slider-labels">
+                        <span>40</span>
+                        <span>160</span>
+                    </div>
+                </div>
+
+                <!-- Physical Parameters -->
+                <div class="control-group">
+                    <label>
+                        Diffusivity (α)
+                        <span class="value-display">0.01</span>
+                    </label>
+                    <div class="static-value-description">Fixed value</div>
+                </div>
+
+                <!-- Maximum Time -->
+                <div class="control-group">
+                    <label for="tmax-slider">
+                        Max Time (Tmax)
+                        <span class="value-display" id="tmax-value">2.0</span>
+                    </label>
+                    <input type="range" id="tmax-slider" min="0.1" max="10" step="0.1" value="2">
+                    <div class="slider-labels">
+                        <span>0.5</span>
+                        <span>10</span>
+                    </div>
+                </div>
+
+
+                <!-- Playback Controls -->
+                <div class="control-group playback-controls">
+                    <button id="play-btn" class="action-btn primary">
+                        <span id="play-icon">▶</span> Play
+                    </button>
+                    <button id="reset-btn" class="action-btn secondary">↺ Reset</button>
+                </div>
+
+                <!-- Speed Control -->
+                <div class="control-group">
+                    <label for="speed-slider">
+                        Animation Speed
+                        <span class="value-display" id="speed-value">1x</span>
+                    </label>
+                    <input type="range" id="speed-slider" min="1" max="20" step="1" value="5">
+                </div>
+            </aside>
+
+            <!-- Visualization Area -->
+            <section class="visualization-area">
+                <!-- Status Panel -->
+                <div class="status-panel glass-card">
+                    <div class="status-item">
+                        <span class="status-label">Active Method</span>
+                        <span class="status-value" id="method-display">Forward Euler</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Time</span>
+                        <span class="status-value" id="time-display">t = 0.000</span>
+                    </div>
+                    <div class="status-item stability-indicator" id="stability-indicator">
+                        <span class="status-label">Fourier Number (r)</span>
+                        <span class="status-value" id="r-display">r = 0.000</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Stability</span>
+                        <span class="status-value" id="stability-status">Stable</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Time Steps</span>
+                        <span class="status-value" id="steps-display">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">TOTAL FLOPs</span>
+                        <span class="status-value" id="flops-display">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">L2 Error</span>
+                        <span class="status-value" id="error-display">0.000</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Max Error</span>
+                        <span class="status-value" id="max-error-display">0.000</span>
+                    </div>
+                </div>
+
+                <!-- Main Chart -->
+                <div class="chart-container glass-card">
+                    <canvas id="solution-chart"></canvas>
+                </div>
+
+                <!-- Educational Info -->
+                <div class="info-panel glass-card">
+                    <div class="info-tabs">
+                        <button class="info-tab active" data-tab="method">Method Info</button>
+                        <button class="info-tab" data-tab="stability">Stability</button>
+                        <button class="info-tab" data-tab="equations">Equations</button>
+                    </div>
+                    <div class="info-content">
+                        <div class="tab-content active" id="tab-method">
+                            <h3 id="method-title">Forward Euler (Explicit)</h3>
+                            <p id="method-description">
+                                The Forward Euler method uses values at time level \(n\) to compute values at \(n+1\).
+                                It is first-order accurate in time and <strong>conditionally stable</strong>:
+                                the Fourier number \(r = \alpha \Delta t / \Delta x^2\) must satisfy \(r \le 0.5\).
+                            </p>
+                        </div>
+                        <div class="tab-content" id="tab-stability">
+                            <h3>Stability Analysis</h3>
+                            <p>
+                                The <strong>Fourier number</strong> \(r = \frac{\alpha \Delta t}{\Delta x^2}\)
+                                determines stability for explicit
+                                methods.
+                            </p>
+                            <ul>
+                                <li><strong>Forward Euler:</strong> Stable if \(r \le 0.5\)</li>
+                                <li><strong>Backward Euler:</strong> Unconditionally stable (all \(r\))</li>
+                                <li><strong>Crank-Nicolson:</strong> Unconditionally stable (all \(r\))</li>
+                            </ul>
+                        </div>
+                        <div class="tab-content" id="tab-equations">
+                            <h3>Governing Equation</h3>
+                            <p class="equation">
+                                \[ \frac{\partial T}{\partial t} = \alpha \frac{\partial^2 T}{\partial x^2} \]
+                            </p>
+                            <h4>Discretizations:</h4>
+                            <p class="equation small">
+                                <strong>Forward Euler:</strong>
+                                \[ T_i^{n+1} = T_i^n + r(T_{i+1}^n - 2T_i^n + T_{i-1}^n) \]
+                            </p>
+                            <p class="equation small">
+                                <strong>Backward Euler:</strong>
+                                \[ T_i^{n+1} - r(T_{i+1}^{n+1} - 2T_i^{n+1} + T_{i-1}^{n+1}) = T_i^n \]
+                            </p>
+                            <p class="equation small">
+                                <strong>Crank-Nicolson:</strong>
+                                \[ \frac{T_i^{n+1} - T_i^n}{\Delta t} = \frac{\alpha}{2} \left( \frac{\partial^2
+                                T}{\partial x^2}\bigg|^{n+1} + \frac{\partial^2 T}{\partial x^2}\bigg|^n \right) \]
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
