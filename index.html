@@ -246,41 +246,74 @@
                         </div>
                         <div class="tab-content" id="tab-equations">
                             <h3 id="eq-title">Governing Equation (1D)</h3>
-                            <div id="eq-1d">
-                                <p class="equation">
-                                    \[ \frac{\partial T}{\partial t} = \alpha \frac{\partial^2 T}{\partial x^2} \]
-                                </p>
-                                <h4>Discretizations:</h4>
-                                <p class="equation small">
-                                    <strong>Forward Euler:</strong>
-                                    \[ T_i^{n+1} = T_i^n + r(T_{i+1}^n - 2T_i^n + T_{i-1}^n) \]
-                                </p>
-                                <p class="equation small">
-                                    <strong>Backward Euler:</strong>
-                                    \[ T_i^{n+1} - r(T_{i+1}^{n+1} - 2T_i^{n+1} + T_{i-1}^{n+1}) = T_i^n \]
-                                </p>
-                                <p class="equation small">
-                                    <strong>Crank-Nicolson:</strong>
-                                    \[ \frac{T_i^{n+1} - T_i^n}{\Delta t} = \frac{\alpha}{2} \left( \frac{\partial^2
-                                    T}{\partial x^2}\bigg|^{n+1} + \frac{\partial^2 T}{\partial x^2}\bigg|^n \right) \]
-                                </p>
-                            </div>
-                            <div id="eq-2d" style="display: none;">
-                                <p class="equation">
-                                    \[ \frac{\partial T}{\partial t} = \alpha \left( \frac{\partial^2 T}{\partial x^2} +
-                                    \frac{\partial^2 T}{\partial y^2} \right) \]
-                                </p>
-                                <h4>Discretizations (2D):</h4>
-                                <p class="equation small">
-                                    <strong>Forward Euler:</strong> Standard 5-point stencil.
-                                    Stability: \( r_x + r_y \le 0.5 \)
-                                </p>
-                                <p class="equation small">
-                                    <strong>Implicit Methods (ADI):</strong>
-                                    Solved using Alternating Direction Implicit (Peaceman-Rachford) splitting to avoid
-                                    large
-                                    matrix inversion.
-                                </p>
+                            <div class="equations-grid">
+                                <!-- Left: Governing Equation -->
+                                <div>
+                                    <div id="eq-1d">
+                                        <p class="equation">
+                                            \[ \frac{\partial T}{\partial t} = \alpha \frac{\partial^2 T}{\partial x^2}
+                                            \]
+                                        </p>
+                                    </div>
+                                    <div id="eq-2d" style="display: none;">
+                                        <p class="equation">
+                                            \[ \frac{\partial T}{\partial t} = \alpha \left( \frac{\partial^2
+                                            T}{\partial x^2} +
+                                            \frac{\partial^2 T}{\partial y^2} \right) \]
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Right: Selected Method Discretization -->
+                                <div>
+                                    <h4>Discretization</h4>
+                                    <!-- 1D Discretizations -->
+                                    <div id="disc-1d-forward-euler" class="discretization-block">
+                                        <p class="equation small">
+                                            <strong>Forward Euler:</strong>
+                                            \[ T_i^{n+1} = T_i^n + r(T_{i+1}^n - 2T_i^n + T_{i-1}^n) \]
+                                        </p>
+                                    </div>
+                                    <div id="disc-1d-backward-euler" class="discretization-block"
+                                        style="display: none;">
+                                        <p class="equation small">
+                                            <strong>Backward Euler:</strong>
+                                            \[ T_i^{n+1} - r(T_{i+1}^{n+1} - 2T_i^{n+1} + T_{i-1}^{n+1}) = T_i^n \]
+                                        </p>
+                                    </div>
+                                    <div id="disc-1d-crank-nicolson" class="discretization-block"
+                                        style="display: none;">
+                                        <p class="equation small">
+                                            <strong>Crank-Nicolson:</strong>
+                                            \[ \frac{T_i^{n+1} - T_i^n}{\Delta t} = \frac{\alpha}{2} \left(
+                                            \frac{\partial^2
+                                            T}{\partial x^2}\bigg|^{n+1} + \frac{\partial^2 T}{\partial x^2}\bigg|^n
+                                            \right) \]
+                                        </p>
+                                    </div>
+
+                                    <!-- 2D Discretizations -->
+                                    <div id="disc-2d-forward-euler" class="discretization-block" style="display: none;">
+                                        <p class="equation small">
+                                            <strong>Forward Euler:</strong> Standard 5-point stencil.
+                                            Stability: \( r_x + r_y \le 0.5 \)
+                                        </p>
+                                    </div>
+                                    <div id="disc-2d-backward-euler" class="discretization-block"
+                                        style="display: none;">
+                                        <p class="equation small">
+                                            <strong>Backward Euler (ADI):</strong>
+                                            Solved using Alternating Direction Implicit (Peaceman-Rachford) splitting.
+                                        </p>
+                                    </div>
+                                    <div id="disc-2d-crank-nicolson" class="discretization-block"
+                                        style="display: none;">
+                                        <p class="equation small">
+                                            <strong>Crank-Nicolson (ADI):</strong>
+                                            Solved using Alternating Direction Implicit (Peaceman-Rachford) splitting.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

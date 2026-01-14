@@ -67,19 +67,21 @@ body {
     background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
     background-attachment: fixed;
     color: var(--text-primary);
-    min-height: 100vh;
+    height: 100vh;
     line-height: 1.6;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 /* App Container */
 .app-container {
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     padding: var(--spacing-md);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 /* Header */
@@ -123,6 +125,7 @@ body {
     grid-template-columns: 400px 1fr;
     gap: var(--spacing-md);
     flex: 1;
+    overflow: hidden;
     min-height: 0;
     align-items: start;
 }
@@ -540,6 +543,18 @@ input[type="range"]::-moz-range-thumb {
 .equation.small {
     font-size: 1rem;
     text-align: left;
+}
+
+/* Equations Grid (2-column layout) */
+.equations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+}
+
+.discretization-block {
+    margin: 0;
 }
 
 /* Footer */

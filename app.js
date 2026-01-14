@@ -313,6 +313,9 @@ function switchDimension(dimension) {
         updateStatus2D();
     }
 
+    // Update discretization display for new dimension
+    updateDiscretizationDisplay();
+
     // Re-render MathJax
     if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetPromise().catch((err) => console.log('MathJax error:', err));
@@ -829,6 +832,27 @@ function updateMethodInfo() {
     }
 }
 
+// ========================================
+// Method Selection
+// ========================================
+
+function updateDiscretizationDisplay() {
+    const dim = currentDimension;
+    const method = sharedConfig.method;
+
+    // Hide all discretization blocks
+    document.querySelectorAll('.discretization-block').forEach(block => {
+        block.style.display = 'none';
+    });
+
+    // Show the selected method's discretization for current dimension
+    const blockId = `disc-${dim}-${method}`;
+    const block = document.getElementById(blockId);
+    if (block) {
+        block.style.display = 'block';
+    }
+}
+
 function setupEventListeners() {
     // Method buttons
     document.querySelectorAll('.method-btn').forEach(btn => {
@@ -837,6 +861,7 @@ function setupEventListeners() {
             btn.classList.add('active');
             sharedConfig.method = btn.dataset.method;
             updateMethodInfo();
+            updateDiscretizationDisplay();
             reset();
         });
     });
