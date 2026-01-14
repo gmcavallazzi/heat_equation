@@ -96,12 +96,15 @@
 
                 <!-- Time Step -->
                 <div class="control-group">
-                    <label for="dt-input">
+                    <label for="dt-slider">
                         Time Step (dt)
                         <span class="value-display" id="dt-value">0.001</span>
                     </label>
-                    <input type="number" id="dt-input" min="0.0001" max="0.1" step="0.0001" value="0.001"
-                        class="number-input">
+                    <input type="range" id="dt-slider" min="0.0001" max="0.01" step="0.0001" value="0.001">
+                    <div class="slider-labels">
+                        <span>0.0001</span>
+                        <span>0.01</span>
+                    </div>
                 </div>
 
                 <!-- Spatial Step -->

@@ -138,7 +138,6 @@ const state2d = {
     animationId: null,
     errorChart: null,
     hasDiverged: false,
-    errorHistory: [],
 };
 
 function getSineIC2D(x, y) {
@@ -535,7 +534,6 @@ function initSimulation2D() {
     state2d.nSteps = 0;
     state2d.flops = 0;
     state2d.hasDiverged = false;
-    state2d.errorHistory = [];
     state2d.u = getSineIC2D(state2d.x, state2d.y);
     state2d.uExact = getAnalyticalSolution2D(state2d.x, state2d.y, 0);
 }
@@ -569,54 +567,83 @@ function timeStep2D() {
 }
 
 function updateSurfacePlot() {
-    const z = state2d.u.map(row => [...row]);
-    const trace = {
-        x: state2d.x,
-        y: state2d.y,
-        z: z,
-        type: 'surface',
-        colorscale: 'Viridis',
-        colorbar: { title: 'T', titleside: 'right', titlefont: { color: 'rgba(255,255,255,0.7)' }, tickfont: { color: 'rgba(255,255,255,0.5)' } }
-    };
     const layout = {
+        title: 'Temperature Distribution u(x,y)',
+        autosize: true,
+        uirevision: 'true',
+        margin: { l: 0, r: 0, b: 0, t: 30 },
         scene: {
-            xaxis: { title: 'x', titlefont: { color: 'rgba(255,255,255,0.7)' }, tickfont: { color: 'rgba(255,255,255,0.5)' }, gridcolor: 'rgba(255,255,255,0.1)' },
-            yaxis: { title: 'y', titlefont: { color: 'rgba(255,255,255,0.7)' }, tickfont: { color: 'rgba(255,255,255,0.5)' }, gridcolor: 'rgba(255,255,255,0.1)' },
-            zaxis: { title: 'T', titlefont: { color: 'rgba(255,255,255,0.7)' }, tickfont: { color: 'rgba(255,255,255,0.5)' }, gridcolor: 'rgba(255,255,255,0.1)' },
-            bgcolor: 'rgba(0,0,0,0)'
+            xaxis: { title: 'x', range: [0, 1], autorange: false },
+            yaxis: { title: 'y', range: [0, 1], autorange: false },
+            zaxis: { title: 'u', range: [-1, 1], autorange: false },
+            aspectmode: 'manual',
+            aspectratio: { x: 1.2, y: 1.2, z: 0.6 },
+            camera: {
+                eye: { x: 1.1, y: 1.1, z: 1.1 }
+            }
         },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
-        margin: { l: 0, r: 0, b: 0, t: 0 }
+        font: { family: 'Outfit, sans-serif', color: '#ffffff' }
     };
-    Plotly.react('surface-plot', [trace], layout, { displayModeBar: false });
+
+    Plotly.react('surface-plot', [{
+        z: state2d.u,
+        x: state2d.x,
+        y: state2d.y,
+        type: 'surface',
+        colorscale: 'Viridis',
+        showscale: false,
+        contours: {
+            z: { show: true, usecolormap: true, highlightcolor: "#42f462", project: { z: true } }
+        }
+    }], layout, { responsive: true, displayModeBar: false });
 }
 
 function initErrorChart() {
+    Chart.defaults.font.family = "'Outfit', sans-serif";
     const ctx = document.getElementById('error-chart').getContext('2d');
     state2d.errorChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [],
-            datasets: [{
-                label: 'Max Relative Error (%)',
-                data: [],
-                borderColor: 'rgb(239, 68, 68)',
-                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.1
-            }]
+            labels: state2d.x.map(xi => xi.toFixed(2)),
+            datasets: [
+                {
+                    label: 'Analytical (y=0.5)',
+                    data: [],
+                    borderColor: '#ffa500',
+                    borderDash: [5, 5],
+                    borderWidth: 3,
+                    pointRadius: 0,
+                },
+                {
+                    label: 'Numerical (y=0.5)',
+                    data: [],
+                    borderColor: '#00e5ff',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                }
+            ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             animation: { duration: 0 },
             scales: {
-                x: { title: { display: true, text: 'Time', color: 'rgba(255, 255, 255, 0.7)' }, ticks: { color: 'rgba(255, 255, 255, 0.5)' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-                y: { title: { display: true, text: 'Max Error (%)', color: 'rgba(255, 255, 255, 0.7)' }, ticks: { color: 'rgba(255, 255, 255, 0.5)' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                x: {
+                    title: { display: true, text: 'x (at y=0.5)', color: '#aaa' },
+                    ticks: { color: '#888' },
+                    grid: { color: '#333' }
+                },
+                y: {
+                    title: { display: true, text: 'u(x, 0.5)', color: '#aaa' },
+                    ticks: { color: '#888' },
+                    grid: { color: '#333' }
+                }
             },
-            plugins: { legend: { labels: { color: 'rgba(255, 255, 255, 0.7)' } } }
+            plugins: {
+                legend: { labels: { color: '#ccc' } }
+            }
         }
     });
 }
@@ -624,23 +651,19 @@ function initErrorChart() {
 function updateErrorChart() {
     if (!state2d.errorChart) return;
 
-    let maxRelErr = 0;
-    for (let i = 0; i < state2d.u.length; i++) {
-        for (let j = 0; j < state2d.u[0].length; j++) {
-            if (Math.abs(state2d.uExact[i][j]) > 1e-10) {
-                const relErr = 100 * Math.abs(state2d.u[i][j] - state2d.uExact[i][j]) / Math.abs(state2d.uExact[i][j]);
-                if (relErr > maxRelErr) maxRelErr = relErr;
-            }
-        }
+    // Extract slice at y=0.5 (midpoint)
+    const diagNumerical = [];
+    const diagAnalytical = [];
+    const jMid = Math.floor(sharedConfig.Nx / 2);
+
+    for (let i = 0; i < sharedConfig.Nx; i++) {
+        diagNumerical.push(state2d.u[i][jMid]);
+        diagAnalytical.push(state2d.uExact[i][jMid]);
     }
 
-    if (state2d.nSteps % 10 === 0 || state2d.nSteps < 10) {
-        state2d.errorHistory.push({ t: state2d.t, err: maxRelErr });
-        if (state2d.errorHistory.length > 100) state2d.errorHistory.shift();
-    }
-
-    state2d.errorChart.data.labels = state2d.errorHistory.map(e => e.t.toFixed(2));
-    state2d.errorChart.data.datasets[0].data = state2d.errorHistory.map(e => e.err);
+    state2d.errorChart.data.labels = state2d.x.map(xi => xi.toFixed(2));
+    state2d.errorChart.data.datasets[0].data = diagAnalytical;
+    state2d.errorChart.data.datasets[1].data = diagNumerical;
     state2d.errorChart.update('none');
 }
 
@@ -791,14 +814,10 @@ function setupEventListeners() {
         });
     });
 
-    // dt input
-    const dtInput = document.getElementById('dt-input');
-    dtInput.addEventListener('change', () => {
-        let val = parseFloat(dtInput.value);
-        if (val < 0.0001) val = 0.0001;
-        if (val > 1.0) val = 1.0;
-        dtInput.value = val;
-        sharedConfig.dt = val;
+    // dt slider
+    const dtSlider = document.getElementById('dt-slider');
+    dtSlider.addEventListener('input', () => {
+        sharedConfig.dt = parseFloat(dtSlider.value);
         document.getElementById('dt-value').textContent = sharedConfig.dt.toExponential(2);
         reset();
     });
@@ -846,7 +865,7 @@ function setupEventListeners() {
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize controls
-    document.getElementById('dt-input').value = sharedConfig.dt;
+    document.getElementById('dt-slider').value = sharedConfig.dt;
     document.getElementById('dx-slider').value = sharedConfig.Nx;
     document.getElementById('tmax-slider').value = sharedConfig.Tmax;
     document.getElementById('speed-slider').value = sharedConfig.animationSpeed;
