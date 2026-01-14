@@ -363,6 +363,11 @@ function timeStep1D() {
 }
 
 function initChart1D() {
+    console.log('initChart1D called, Chart available:', typeof Chart !== 'undefined');
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js not loaded yet!');
+        return;
+    }
     const ctx = document.getElementById('solution-chart').getContext('2d');
     state1d.chart = new Chart(ctx, {
         type: 'line',
@@ -881,22 +886,39 @@ function setupEventListeners() {
 // ========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize controls
-    document.getElementById('dt-slider').value = sharedConfig.dt;
-    document.getElementById('dx-slider').value = sharedConfig.Nx;
-    document.getElementById('tmax-slider').value = sharedConfig.Tmax;
-    document.getElementById('speed-slider').value = sharedConfig.animationSpeed;
-    document.getElementById('dt-value').textContent = sharedConfig.dt.toExponential(2);
-    document.getElementById('dx-value').textContent = sharedConfig.Nx;
-    document.getElementById('tmax-value').textContent = sharedConfig.Tmax.toFixed(1);
-    document.getElementById('speed-value').textContent = `${sharedConfig.animationSpeed}x`;
+    try {
+        console.log('DOMContentLoaded fired');
 
-    // Initialize 1D (default)
-    initSimulation1D();
-    initChart1D();
-    updateStatus1D();
-    updateMethodInfo();
+        // Initialize controls
+        document.getElementById('dt-slider').value = sharedConfig.dt;
+        document.getElementById('dx-slider').value = sharedConfig.Nx;
+        document.getElementById('tmax-slider').value = sharedConfig.Tmax;
+        document.getElementById('speed-slider').value = sharedConfig.animationSpeed;
+        document.getElementById('dt-value').textContent = sharedConfig.dt.toExponential(2);
+        document.getElementById('dx-value').textContent = sharedConfig.Nx;
+        document.getElementById('tmax-value').textContent = sharedConfig.Tmax.toFixed(1);
+        document.getElementById('speed-value').textContent = `${sharedConfig.animationSpeed}x`;
+        console.log('Controls initialized');
 
-    setupEventListeners();
-    console.log('Heat Equation Explorer initialized');
+        // Initialize 1D (default)
+        initSimulation1D();
+        console.log('Simulation initialized');
+
+        initChart1D();
+        console.log('Chart initialized');
+
+        updateStatus1D();
+        console.log('Status updated');
+
+        updateMethodInfo();
+        console.log('Method info updated');
+
+        setupEventListeners();
+        console.log('Event listeners set up');
+
+        console.log('Heat Equation Explorer initialized successfully');
+    } catch (error) {
+        console.error('Initialization error:', error);
+        console.error('Stack:', error.stack);
+    }
 });
