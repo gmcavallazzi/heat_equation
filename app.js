@@ -505,9 +505,11 @@ function animate1D() {
 }
 
 function startAnimation1D() {
+    console.log('startAnimation1D called');
     if (state1d.isPlaying) return;
     state1d.isPlaying = true;
     document.getElementById('play-btn').innerHTML = '<span id="play-icon">⏸</span> Pause';
+    console.log('Starting 1D animation');
     animate1D();
 }
 
@@ -759,10 +761,13 @@ function stopAnimation2D() {
 // ========================================
 
 function togglePlayPause() {
+    console.log('togglePlayPause called, dimension:', currentDimension);
     if (currentDimension === '1d') {
+        console.log('1D mode, isPlaying:', state1d.isPlaying);
         if (state1d.isPlaying) stopAnimation1D();
         else startAnimation1D();
     } else {
+        console.log('2D mode, isPlaying:', state2d.isPlaying);
         if (state2d.isPlaying) stopAnimation2D();
         else startAnimation2D();
     }
@@ -854,8 +859,11 @@ function setupEventListeners() {
     });
 
     // Play/Pause & Reset
-    document.getElementById('play-btn').addEventListener('click', togglePlayPause);
-    document.getElementById('reset-btn').addEventListener('click', reset);
+    const playBtn = document.getElementById('play-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    console.log('Setting up event listeners, playBtn:', playBtn, 'resetBtn:', resetBtn);
+    playBtn.addEventListener('click', togglePlayPause);
+    resetBtn.addEventListener('click', reset);
 
     // Info tabs
     document.querySelectorAll('.info-tab').forEach(tab => {
