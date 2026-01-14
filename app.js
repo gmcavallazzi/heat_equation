@@ -706,7 +706,7 @@ function updateStatus2D() {
     document.getElementById('steps-display').textContent = state2d.nSteps;
     document.getElementById('flops-display').textContent = state2d.flops.toExponential(2);
 
-    const methodNames = { 'forward-euler': 'Forward Euler', 'backward-euler': 'Backward Euler (ADI)', 'crank-nicolson': 'Crank-Nicolson (ADI)' };
+    const methodNames = { 'forward-euler': 'Forward Euler', 'backward-euler': 'Backward Euler', 'crank-nicolson': 'Crank-Nicolson' };
     document.getElementById('method-display').textContent = methodNames[sharedConfig.method];
 
     const isUnstable = sharedConfig.method === 'forward-euler' && (state2d.rx + state2d.ry) > 0.5;
