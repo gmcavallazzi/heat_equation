@@ -271,24 +271,25 @@
                                     <div id="disc-1d-forward-euler" class="discretisation-block">
                                         <p class="equation small">
                                             <strong>Forward Euler:</strong>
-                                            \[ T_i^{n+1} = T_i^n + r(T_{i+1}^n - 2T_i^n + T_{i-1}^n) \]
+                                            \[ T_i^{n+1} = T_i^n + \frac{\alpha \Delta t}{\Delta x^2}(T_{i+1}^n - 2T_i^n
+                                            + T_{i-1}^n) \]
                                         </p>
                                     </div>
                                     <div id="disc-1d-backward-euler" class="discretisation-block"
                                         style="display: none;">
                                         <p class="equation small">
                                             <strong>Backward Euler:</strong>
-                                            \[ T_i^{n+1} - r(T_{i+1}^{n+1} - 2T_i^{n+1} + T_{i-1}^{n+1}) = T_i^n \]
+                                            \[ T_i^{n+1} - \frac{\alpha \Delta t}{\Delta x^2}(T_{i+1}^{n+1} - 2T_i^{n+1}
+                                            + T_{i-1}^{n+1}) = T_i^n \]
                                         </p>
                                     </div>
                                     <div id="disc-1d-crank-nicolson" class="discretisation-block"
                                         style="display: none;">
                                         <p class="equation small">
                                             <strong>Crank-Nicolson:</strong>
-                                            \[ \frac{T_i^{n+1} - T_i^n}{\Delta t} = \frac{\alpha}{2} \left(
-                                            \frac{\partial^2
-                                            T}{\partial x^2}\bigg|^{n+1} + \frac{\partial^2 T}{\partial x^2}\bigg|^n
-                                            \right) \]
+                                            \[ T_i^{n+1} - T_i^n = \frac{\alpha \Delta t}{2 \Delta x^2} \left[
+                                            (T_{i+1}^{n+1} - 2T_i^{n+1} + T_{i-1}^{n+1}) + (T_{i+1}^n - 2T_i^n +
+                                            T_{i-1}^n) \right] \]
                                         </p>
                                     </div>
 
@@ -296,24 +297,29 @@
                                     <div id="disc-2d-forward-euler" class="discretisation-block" style="display: none;">
                                         <p class="equation small">
                                             <strong>Forward Euler:</strong>
-                                            \[ T_{i,j}^{n+1} = T_{i,j}^n + r_x(T_{i+1,j}^n - 2T_{i,j}^n + T_{i-1,j}^n) +
-                                            r_y(T_{i,j+1}^n - 2T_{i,j}^n + T_{i,j-1}^n) \]
+                                            \[ T_{i,j}^{n+1} = T_{i,j}^n + \frac{\alpha \Delta t}{\Delta
+                                            x^2}(T_{i+1,j}^n - 2T_{i,j}^n + T_{i-1,j}^n) + \frac{\alpha \Delta t}{\Delta
+                                            y^2}(T_{i,j+1}^n - 2T_{i,j}^n + T_{i,j-1}^n) \]
                                         </p>
                                     </div>
                                     <div id="disc-2d-backward-euler" class="discretisation-block"
                                         style="display: none;">
                                         <p class="equation small">
                                             <strong>Backward Euler:</strong>
-                                            \[ T_{i,j}^{n+1} - r_x(T_{i+1,j}^{n+1} - 2T_{i,j}^{n+1} + T_{i-1,j}^{n+1}) -
-                                            r_y(T_{i,j+1}^{n+1} - 2T_{i,j}^{n+1} + T_{i,j-1}^{n+1}) = T_{i,j}^n \]
+                                            \[ T_{i,j}^{n+1} - \frac{\alpha \Delta t}{\Delta x^2}(T_{i+1,j}^{n+1} -
+                                            2T_{i,j}^{n+1} + T_{i-1,j}^{n+1}) - \frac{\alpha \Delta t}{\Delta
+                                            y^2}(T_{i,j+1}^{n+1} - 2T_{i,j}^{n+1} + T_{i,j-1}^{n+1}) = T_{i,j}^n \]
                                         </p>
                                     </div>
                                     <div id="disc-2d-crank-nicolson" class="discretisation-block"
                                         style="display: none;">
                                         <p class="equation small">
                                             <strong>Crank-Nicolson:</strong>
-                                            \[ \frac{T_{i,j}^{n+1} - T_{i,j}^n}{\Delta t} = \frac{\alpha}{2} \left[
-                                            \nabla^2 T_{i,j}^{n+1} + \nabla^2 T_{i,j}^n \right] \]
+                                            \[ T_{i,j}^{n+1} - T_{i,j}^n = \frac{\alpha \Delta t}{2} \left[
+                                            \frac{1}{\Delta x^2}(T_{i+1,j}^{n+1} - 2T_{i,j}^{n+1} + T_{i-1,j}^{n+1} +
+                                            T_{i+1,j}^n - 2T_{i,j}^n + T_{i-1,j}^n) + \frac{1}{\Delta
+                                            y^2}(T_{i,j+1}^{n+1} - 2T_{i,j}^{n+1} + T_{i,j-1}^{n+1} + T_{i,j+1}^n -
+                                            2T_{i,j}^n + T_{i,j-1}^n) \right] \]
                                         </p>
                                     </div>
                                 </div>

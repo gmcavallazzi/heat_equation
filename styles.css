@@ -548,7 +548,7 @@ input[type="range"]::-moz-range-thumb {
 /* Equations Grid (2-column layout) */
 .equations-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     gap: var(--spacing-lg);
     align-items: center;
 }
