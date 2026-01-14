@@ -389,12 +389,16 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .status-value {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.15rem;
+    font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+    font-size: 1.05rem;
     font-weight: 600;
     min-height: 1.5rem;
-    display: flex;
-    align-items: center;
+    min-width: 100px;
+    width: 100px;
+    display: inline-block;
+    text-align: left;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
 }
 
 .stability-indicator .status-value {
