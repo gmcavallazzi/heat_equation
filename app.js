@@ -307,6 +307,7 @@ function switchDimension(dimension) {
         updateStatus1D();
     } else {
         initSimulation2D();
+        initErrorChart();
         updateSurfacePlot();
         updateErrorChart();
         updateStatus2D();
@@ -601,12 +602,16 @@ function updateSurfacePlot() {
 }
 
 function initErrorChart() {
+    if (state2d.errorChart) {
+        state2d.errorChart.destroy();
+    }
+
     Chart.defaults.font.family = "'Outfit', sans-serif";
     const ctx = document.getElementById('error-chart').getContext('2d');
     state2d.errorChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: state2d.x.map(xi => xi.toFixed(2)),
+            labels: [],
             datasets: [
                 {
                     label: 'Analytical (y=0.5)',
@@ -883,9 +888,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initChart1D();
     updateStatus1D();
     updateMethodInfo();
-
-    // Initialize 2D charts (but don't compute yet)
-    initErrorChart();
 
     setupEventListeners();
     console.log('Heat Equation Explorer initialized');
