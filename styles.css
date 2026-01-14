@@ -143,8 +143,8 @@ body {
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: var(--spacing-sm);
-    padding-bottom: var(--spacing-xs);
-    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 /* Control Groups */
@@ -156,7 +156,7 @@ body {
 .controls-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
     margin-bottom: var(--spacing-md);
 }
 

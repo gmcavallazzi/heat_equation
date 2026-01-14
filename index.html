@@ -16,7 +16,7 @@
         .dimension-toggle {
             display: flex;
             gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.75rem;
             background: rgba(255, 255, 255, 0.05);
             padding: 0.5rem;
             border-radius: 12px;
@@ -74,6 +74,7 @@
                 </div>
 
                 <h2>Simulation Parameters</h2>
+
 
                 <!-- Method Selection -->
                 <div class="control-group">
@@ -251,7 +252,8 @@
                                 determines stability for explicit methods.
                             </p>
                             <ul>
-                                <li><strong>Forward Euler:</strong> Stable if \(r \le 0.5\) (1D) or \(r_x + r_y \le 0.5\) (2D)</li>
+                                <li><strong>Forward Euler:</strong> Stable if \(r \le 0.5\) (1D) or \(r_x + r_y \le
+                                    0.5\) (2D)</li>
                                 <li><strong>Backward Euler:</strong> Unconditionally stable (all \(r\))</li>
                                 <li><strong>Crank-Nicolson:</strong> Unconditionally stable (all \(r\))</li>
                             </ul>
@@ -289,7 +291,8 @@
                                 </p>
                                 <p class="equation small">
                                     <strong>Implicit Methods (ADI):</strong>
-                                    Solved using Alternating Direction Implicit (Peaceman-Rachford) splitting to avoid large
+                                    Solved using Alternating Direction Implicit (Peaceman-Rachford) splitting to avoid
+                                    large
                                     matrix inversion.
                                 </p>
                             </div>
