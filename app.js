@@ -678,8 +678,11 @@ function initErrorChart() {
                 legend: { labels: { color: '#ccc', font: { size: 14, family: 'Outfit' } } },
                 zoom: {
                     zoom: {
-                        wheel: {
+                        drag: {
                             enabled: true,
+                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                            borderColor: 'rgba(255, 255, 255, 0.5)',
+                            borderWidth: 1
                         },
                         pinch: {
                             enabled: true
@@ -687,8 +690,7 @@ function initErrorChart() {
                         mode: 'xy',
                     },
                     pan: {
-                        enabled: true,
-                        mode: 'xy',
+                        enabled: false,
                     },
                     limits: {
                         x: { min: 0, max: 1 },
