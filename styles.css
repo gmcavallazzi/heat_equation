@@ -57,7 +57,7 @@
 }
 
 html {
-    font-size: 16px;
+    font-size: 18px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -93,7 +93,7 @@ body {
 }
 
 .header h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 700;
     background: var(--accent-gradient);
     -webkit-background-clip: text;
@@ -104,7 +104,7 @@ body {
 }
 
 .header .subtitle {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     color: var(--text-secondary);
     font-weight: 400;
 }
@@ -140,7 +140,7 @@ body {
 }
 
 .control-panel h2 {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 600;
     margin-bottom: var(--spacing-md);
     padding-bottom: var(--spacing-sm);
@@ -156,7 +156,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     font-weight: 500;
     color: var(--text-secondary);
     margin-bottom: var(--spacing-sm);
@@ -166,7 +166,7 @@ body {
     font-family: 'SF Mono', 'Monaco', monospace;
     color: var(--accent-primary);
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
 }
 
 /* Method Buttons */
@@ -190,7 +190,7 @@ body {
     cursor: pointer;
     transition: all var(--transition-fast);
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: 1.05rem;
 }
 
 .method-btn:hover,
@@ -211,11 +211,11 @@ body {
 }
 
 .method-tag {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding: 2px 8px;
+    padding: 3px 10px;
     border-radius: 4px;
 }
 
@@ -242,7 +242,7 @@ body {
 
 /* Static Value Description */
 .static-value-description {
-    font-size: 12px;
+    font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.5);
     margin-top: 4px;
     font-style: italic;
@@ -308,7 +308,7 @@ input[type="range"]::-moz-range-thumb {
 .slider-labels {
     display: flex;
     justify-content: space-between;
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
     margin-top: var(--spacing-xs);
 }
@@ -325,7 +325,7 @@ input[type="range"]::-moz-range-thumb {
     border: none;
     border-radius: var(--radius-md);
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -382,7 +382,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .status-label {
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     color: var(--text-muted);
     letter-spacing: 0.02em;
     font-weight: 500;
@@ -390,7 +390,7 @@ input[type="range"]::-moz-range-thumb {
 
 .status-value {
     font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     font-weight: 600;
     min-height: 1.5rem;
     min-width: 100px;
@@ -410,9 +410,9 @@ input[type="range"]::-moz-range-thumb {
 }
 
 #stability-status {
-    padding: 2px 10px;
+    padding: 4px 12px;
     border-radius: 4px;
-    font-size: 0.85rem;
+    font-size: 1rem;
 }
 
 .stable #stability-status {
@@ -455,7 +455,7 @@ input[type="range"]::-moz-range-thumb {
     border: none;
     color: var(--text-muted);
     font-family: inherit;
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
     border-radius: var(--radius-sm);
@@ -494,21 +494,21 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .info-content h3 {
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: var(--spacing-sm);
     color: var(--accent-primary);
 }
 
 .info-content h4 {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     font-weight: 600;
     margin: var(--spacing-md) 0 var(--spacing-sm);
 }
 
 .info-content p {
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     line-height: 1.7;
 }
 
@@ -519,22 +519,22 @@ input[type="range"]::-moz-range-thumb {
 
 .info-content li {
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     margin-bottom: var(--spacing-sm);
 }
 
 .equation {
-    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    font-family: 'Outfit', sans-serif;
     background: rgba(255, 255, 255, 0.05);
     padding: var(--spacing-md);
     border-radius: var(--radius-sm);
     margin: var(--spacing-sm) 0;
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
 .equation.small {
-    font-size: 0.85rem;
+    font-size: 1rem;
     text-align: left;
 }
 

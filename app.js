@@ -402,20 +402,20 @@ function initChart1D() {
             animation: { duration: 0 },
             scales: {
                 x: {
-                    title: { display: true, text: 'Position x', color: 'rgba(255, 255, 255, 0.7)', font: { size: 14, weight: 500 } },
-                    ticks: { color: 'rgba(255, 255, 255, 0.5)' },
+                    title: { display: true, text: 'Position x', color: 'rgba(255, 255, 255, 0.7)', font: { size: 16, weight: 500, family: 'Outfit' } },
+                    ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 14, family: 'Outfit' } },
                     grid: { color: 'rgba(255, 255, 255, 0.1)' }
                 },
                 y: {
-                    title: { display: true, text: 'Temperature T', color: 'rgba(255, 255, 255, 0.7)', font: { size: 14, weight: 500 } },
-                    ticks: { color: 'rgba(255, 255, 255, 0.5)' },
+                    title: { display: true, text: 'Temperature T', color: 'rgba(255, 255, 255, 0.7)', font: { size: 16, weight: 500, family: 'Outfit' } },
+                    ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 14, family: 'Outfit' } },
                     grid: { color: 'rgba(255, 255, 255, 0.1)' },
                     min: -1.0,
                     max: 1.0,
                 }
             },
             plugins: {
-                legend: { labels: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 12 } } }
+                legend: { labels: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 14, family: 'Outfit' } } }
             }
         }
     });
@@ -573,14 +573,32 @@ function timeStep2D() {
 
 function updateSurfacePlot() {
     const layout = {
-        title: 'Temperature Distribution u(x,y)',
+        title: {
+            text: 'Temperature Distribution u(x,y)',
+            font: { size: 18, family: 'Outfit, sans-serif' }
+        },
         autosize: true,
         uirevision: 'true',
-        margin: { l: 0, r: 0, b: 0, t: 30 },
+        margin: { l: 0, r: 0, b: 0, t: 40 },
         scene: {
-            xaxis: { title: 'x', range: [0, 1], autorange: false },
-            yaxis: { title: 'y', range: [0, 1], autorange: false },
-            zaxis: { title: 'u', range: [-1, 1], autorange: false },
+            xaxis: {
+                title: { text: 'x', font: { size: 14, family: 'Outfit' } },
+                range: [0, 1],
+                autorange: false,
+                tickfont: { size: 12, family: 'Outfit' }
+            },
+            yaxis: {
+                title: { text: 'y', font: { size: 14, family: 'Outfit' } },
+                range: [0, 1],
+                autorange: false,
+                tickfont: { size: 12, family: 'Outfit' }
+            },
+            zaxis: {
+                title: { text: 'u', font: { size: 14, family: 'Outfit' } },
+                range: [-1, 1],
+                autorange: false,
+                tickfont: { size: 12, family: 'Outfit' }
+            },
             aspectmode: 'manual',
             aspectratio: { x: 1.2, y: 1.2, z: 0.6 },
             camera: {
@@ -589,7 +607,7 @@ function updateSurfacePlot() {
         },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
-        font: { family: 'Outfit, sans-serif', color: '#ffffff' }
+        font: { family: 'Outfit, sans-serif', color: '#ffffff', size: 14 }
     };
 
     Plotly.react('surface-plot', [{
@@ -640,18 +658,18 @@ function initErrorChart() {
             animation: { duration: 0 },
             scales: {
                 x: {
-                    title: { display: true, text: 'x (at y=0.5)', color: '#aaa' },
-                    ticks: { color: '#888' },
+                    title: { display: true, text: 'x (at y=0.5)', color: '#aaa', font: { size: 16, family: 'Outfit' } },
+                    ticks: { color: '#888', font: { size: 14, family: 'Outfit' } },
                     grid: { color: '#333' }
                 },
                 y: {
-                    title: { display: true, text: 'u(x, 0.5)', color: '#aaa' },
-                    ticks: { color: '#888' },
+                    title: { display: true, text: 'u(x, 0.5)', color: '#aaa', font: { size: 16, family: 'Outfit' } },
+                    ticks: { color: '#888', font: { size: 14, family: 'Outfit' } },
                     grid: { color: '#333' }
                 }
             },
             plugins: {
-                legend: { labels: { color: '#ccc' } }
+                legend: { labels: { color: '#ccc', font: { size: 14, family: 'Outfit' } } }
             }
         }
     });
