@@ -16,7 +16,7 @@ let currentDimension = '1d'; // Start with 1D
 const sharedConfig = {
     L: 1.0,
     alpha: 0.01,
-    Nx: 41,
+    Nx: 40,
     dt: 0.001,
     Tmax: 2.0,
     method: 'forward-euler',
