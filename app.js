@@ -128,6 +128,7 @@ const state2d = {
     nSteps: 0,
     flops: 0,
     u: null,
+    uRef: null, // Reference solution
     uExact: null,
     x: null,
     y: null,
@@ -574,6 +575,8 @@ function initSimulation2D() {
     state2d.flops = 0;
     state2d.hasDiverged = false;
     state2d.u = getSineIC2D(state2d.x, state2d.y);
+    // Deep copy for uRef
+    state2d.uRef = state2d.u.map(row => [...row]);
     state2d.uExact = getAnalyticalSolution2D(state2d.x, state2d.y, 0);
 }
 
@@ -595,6 +598,19 @@ function stepNumerical2D() {
             state2d.u = crankNicolson2D_ADI(state2d.u, rx, ry);
             state2d.flops += 24 * N * N;
             break;
+            state2d.flops += 24 * N * N;
+            break;
+    }
+
+    // Step Reference Solution (Ghost Simulation 2D)
+    // Use Crank-Nicolson ADI with small dt
+    const dtRef = 0.0005; // 0.5ms - balancing performance
+    const stepsRef = Math.max(1, Math.round(sharedConfig.dt / dtRef));
+    const realDtRef = sharedConfig.dt / stepsRef;
+    const rRef = sharedConfig.alpha * realDtRef / (state2d.dx * state2d.dx);
+
+    for (let k = 0; k < stepsRef; k++) {
+        state2d.uRef = crankNicolson2D_ADI(state2d.uRef, rRef, rRef);
     }
 }
 
@@ -767,7 +783,24 @@ function updateStatus2D() {
     }
     const l2Error = Math.sqrt(sum / (state2d.u.length * state2d.u[0].length));
 
+    // Compute Temporal Error 2D
+    let sumRef = 0;
+    for (let i = 0; i < state2d.u.length; i++) {
+        for (let j = 0; j < state2d.u[0].length; j++) {
+            const diff = state2d.u[i][j] - state2d.uRef[i][j];
+            if (isFinite(diff)) {
+                sumRef += diff * diff;
+            }
+        }
+    }
+    const tempError = Math.sqrt(sumRef / (state2d.u.length * state2d.u[0].length));
+
     document.getElementById('error-display').textContent = l2Error.toExponential(3);
+    const tempErrorDisplay = document.getElementById('temp-error-display');
+    if (tempErrorDisplay) {
+        tempErrorDisplay.textContent = tempError.toExponential(3);
+        tempErrorDisplay.style.color = '#fbbf24';
+    }
     document.getElementById('max-error-display').textContent = maxErr.toExponential(3);
     document.getElementById('max-rel-error-display').textContent = maxRelErr.toExponential(3) + '%';
 }
