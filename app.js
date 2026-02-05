@@ -18,7 +18,7 @@ const sharedConfig = {
     alpha: 0.01,
     Nx: 40,
     dt: 0.001,
-    Tmax: 2.0,
+    Tmax: 1.0,
     method: 'forward-euler',
     animationSpeed: 5,
 };
@@ -32,6 +32,7 @@ const state1d = {
     nSteps: 0,
     flops: 0,
     u: null,
+    uRef: null, // Reference solution (ghost simulation)
     uExact: null,
     x: null,
     dx: null,
@@ -336,6 +337,7 @@ function initSimulation1D() {
     state1d.flops = 0;
     state1d.hasDiverged = false;
     state1d.u = getSineIC(state1d.x);
+    state1d.uRef = [...state1d.u]; // Initialize reference
     state1d.uExact = getAnalyticalSolution(state1d.x, 0);
 }
 
@@ -356,6 +358,18 @@ function stepNumerical1D() {
             state1d.u = crankNicolson1D(state1d.u, r);
             state1d.flops += 12 * N;
             break;
+    }
+
+    // Step Reference Solution (Ghost Simulation)
+    // Use Crank-Nicolson with very small dt to approximate "exact" temporal evolution
+    const dtRef = 0.0001; // 100 microseconds
+    const stepsRef = Math.max(1, Math.round(sharedConfig.dt / dtRef));
+    const realDtRef = sharedConfig.dt / stepsRef;
+    const rRef = sharedConfig.alpha * realDtRef / (state1d.dx * state1d.dx);
+
+    for (let k = 0; k < stepsRef; k++) {
+        state1d.uRef = crankNicolson1D(state1d.uRef, rRef);
+        // Note: Reference simulation FLOPs are not counted in the main display
     }
 }
 
@@ -467,7 +481,19 @@ function updateStatus1D() {
         }
     }
     const l2Error = Math.sqrt(sum / state1d.u.length);
+
+    // Compute Temporal Error (vs Reference)
+    let sumRef = 0;
+    for (let i = 0; i < state1d.u.length; i++) {
+        const diff = state1d.u[i] - state1d.uRef[i];
+        if (isFinite(diff)) {
+            sumRef += diff * diff;
+        }
+    }
+    const tempError = Math.sqrt(sumRef / state1d.u.length);
+
     const errorDisplay = document.getElementById('error-display');
+    const tempErrorDisplay = document.getElementById('temp-error-display');
     const maxErrorDisplay = document.getElementById('max-error-display');
 
     if (l2Error > 1) {
@@ -478,6 +504,10 @@ function updateStatus1D() {
     } else {
         errorDisplay.textContent = l2Error.toExponential(3);
         errorDisplay.style.color = '';
+        if (tempErrorDisplay) {
+            tempErrorDisplay.textContent = tempError.toExponential(3);
+            tempErrorDisplay.style.color = '#fbbf24'; // Amber color to distinguish
+        }
         maxErrorDisplay.textContent = maxErr.toExponential(3);
         maxErrorDisplay.style.color = '';
     }
@@ -870,23 +900,24 @@ function setupEventListeners() {
     });
 
     // dt slider
-    const dtSlider = document.getElementById('dt-slider');
-    dtSlider.addEventListener('input', () => {
-        sharedConfig.dt = parseFloat(dtSlider.value);
-        document.getElementById('dt-value').textContent = sharedConfig.dt.toExponential(2);
-    });
-    dtSlider.addEventListener('change', () => {
-        reset();
+    // dt input
+    const dtInput = document.getElementById('dt-input');
+    dtInput.addEventListener('change', () => {
+        const val = parseFloat(dtInput.value);
+        if (!isNaN(val) && val > 0) {
+            sharedConfig.dt = val;
+            reset();
+        }
     });
 
-    // Nx slider
-    const dxSlider = document.getElementById('dx-slider');
-    dxSlider.addEventListener('input', () => {
-        sharedConfig.Nx = parseInt(dxSlider.value);
-        document.getElementById('dx-value').textContent = sharedConfig.Nx;
-    });
-    dxSlider.addEventListener('change', () => {
-        reset();
+    // Nx input
+    const dxInput = document.getElementById('dx-input');
+    dxInput.addEventListener('change', () => {
+        const val = parseInt(dxInput.value);
+        if (!isNaN(val) && val >= 10) {
+            sharedConfig.Nx = val;
+            reset();
+        }
     });
 
     // Tmax slider
@@ -925,12 +956,10 @@ function setupEventListeners() {
 document.addEventListener('DOMContentLoaded', () => {
     try {
         // Initialize controls
-        document.getElementById('dt-slider').value = sharedConfig.dt;
-        document.getElementById('dx-slider').value = sharedConfig.Nx;
+        document.getElementById('dt-input').value = sharedConfig.dt;
+        document.getElementById('dx-input').value = sharedConfig.Nx;
         document.getElementById('tmax-slider').value = sharedConfig.Tmax;
         document.getElementById('speed-slider').value = sharedConfig.animationSpeed;
-        document.getElementById('dt-value').textContent = sharedConfig.dt.toExponential(2);
-        document.getElementById('dx-value').textContent = sharedConfig.Nx;
         document.getElementById('tmax-value').textContent = sharedConfig.Tmax.toFixed(1);
         document.getElementById('speed-value').textContent = `${sharedConfig.animationSpeed}x`;
 
